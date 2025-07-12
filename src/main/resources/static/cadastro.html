@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Usuário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<form method="POST" action="/signup">
+    <h2>Cadastro</h2>
+    <!-- CAMPO 1: isso vai preencher dados.setName("João") -->
+    <input type="text" name="nome" placeholder="Nome" required />
+
+    <!-- CAMPO 2: isso vai preencher dados.setEmail("joao@gmail.com") -->
+    <input type="email" name="email" placeholder="E-mail" required />
+
+    <!-- CAMPO 3: isso vai preencher dados.setPassword("123456") -->
+    <input type="password" name="senha" placeholder="Senha" required />
+    <button type="submit">Cadastrar</button>
+</form>
+
+</body>
+</html>
