@@ -1,12 +1,13 @@
 package com.toDo.projetoDeGerenciamentoDeTarefas.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import com.toDo.projetoDeGerenciamentoDeTarefas.user.UserModel;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserModel, Long> {
+public interface UserRepository extends JpaRepository<UserModel, Long> { //primeiuro parametro o tipo da entidade da tabela,ou seja,UserModel e tipo da chave primaria
     /*
     * Isso dá a você vários métodos prontos, como:
     save(obj) → salva ou atualiza no banco
@@ -19,5 +20,5 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     * JpaRepository e automaticamente gera a implementação em tempo de execução
     * */
 
-    Optional<UserModel> findByEmail(String email);
+    UserDetails findByEmail(String email);
 }

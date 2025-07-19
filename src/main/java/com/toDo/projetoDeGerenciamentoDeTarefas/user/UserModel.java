@@ -2,14 +2,21 @@ package com.toDo.projetoDeGerenciamentoDeTarefas.user;
 
 import com.toDo.projetoDeGerenciamentoDeTarefas.task.*;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.List;
 
 //Entity transforma uma classe em uma entidade do banco de dados
 @Entity
 @Table(name = "tb_users")
-public class UserModel {
+@EqualsAndHashCode(of = "id")
+public class UserModel implements UserDetails {
 
     @Getter
     @Id
@@ -38,4 +45,33 @@ public class UserModel {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TaskModel> tasks;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return email; //vou fazer login com o email
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

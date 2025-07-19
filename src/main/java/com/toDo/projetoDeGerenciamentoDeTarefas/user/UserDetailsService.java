@@ -1,4 +1,4 @@
-package com.toDo.projetoDeGerenciamentoDeTarefas.user;
+/*package com.toDo.projetoDeGerenciamentoDeTarefas.user;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,3 +24,4 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     }
 }
+*/

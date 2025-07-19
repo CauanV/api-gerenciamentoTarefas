@@ -22,7 +22,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(task);
     }
 
-    @GetMapping("/products")
+    @GetMapping("/list")
     public List<TaskModel> getTasks(){
         return taskService.taskList();
     }
@@ -30,5 +30,10 @@ public class TaskController {
     @GetMapping("/{id}")//entre chaves o parametro vai ser um pathvariable
     public TaskModel productById(@PathVariable Long id){
         return taskService.listById(id);
+    }
+
+    @DeleteMapping("/delete{id}")
+    public String deleteById(@PathVariable Long id){
+        return taskService.deleteById(id);
     }
 }

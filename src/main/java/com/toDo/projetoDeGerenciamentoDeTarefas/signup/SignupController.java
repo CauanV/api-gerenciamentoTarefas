@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SignupController {
 
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public String signup(@ModelAttribute UserModel dados){
         /*
         * Você escreveu @ModelAttribute UserModel dados no parâmetro do método.
@@ -26,7 +26,7 @@ public class SignupController {
         * O Spring associa os dados do formulário aos atributos do objeto Java com base exclusivamente na comparação dos nomes dos campos
         * */
         // Aqui o 'dados' já tem name, email, password preenchidos
-        System.out.println("Nome: " + dados.getUserName());
+        System.out.println("Nome: " + dados.getUsername());
         System.out.println("Email: " + dados.getEmail());
         System.out.println("Senha: " + dados.getPassword());
         // Aqui você pode salvar no banco (se tiver um repository)

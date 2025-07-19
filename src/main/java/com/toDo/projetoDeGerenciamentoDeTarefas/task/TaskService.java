@@ -33,4 +33,10 @@ public class TaskService {
                 .orElseThrow(() -> new EntityNotFoundException("Task nao encontrada " + id));
         return task;
     }
+
+    public String deleteById(Long id){
+        taskRepository.deleteById(id);
+        return "Task" + id + "successful deleted";
+    }
+
 }

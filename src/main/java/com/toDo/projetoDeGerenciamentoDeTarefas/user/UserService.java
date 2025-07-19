@@ -1,5 +1,6 @@
 package com.toDo.projetoDeGerenciamentoDeTarefas.user;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,11 @@ public class UserService {
         return userRepository.save(userModel);
     }
 
-    public Optional<UserModel> findByUser(String email) {
+    /*public Optional<UserModel> findByUser(String email) {
+        return userRepository.findByEmail(email);
+    }*/
+
+    public UserDetails findByUser(String email) {
         return userRepository.findByEmail(email);
     }
 }
