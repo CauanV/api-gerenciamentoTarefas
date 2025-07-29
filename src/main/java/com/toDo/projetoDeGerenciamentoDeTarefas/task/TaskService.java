@@ -1,5 +1,6 @@
 package com.toDo.projetoDeGerenciamentoDeTarefas.task;
 
+import com.toDo.projetoDeGerenciamentoDeTarefas.user.UserModel;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,10 @@ public class TaskService {
         TaskModel task = taskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task nao encontrada " + id));
         return task;
+    }
+
+    public List<TaskModel> taskListByUser(UserModel user){
+        return taskRepository.findAllByUser(user);
     }
 
     public String deleteById(Long id){

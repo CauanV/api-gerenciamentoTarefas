@@ -32,7 +32,9 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
+        var auth = this.authenticationManager.authenticate(usernamePassword);//O authenticationManager vai chamar internamente:
+                                             //Um UserDetailsService (dentro de AuthorizationService)→ que busca o usuário no banco de dados pelo e-mail
+                                            //Um PasswordEncoder → que compara a senha enviada com a senha criptografada salva no banco
         var token = tokenService.generateToken((UserModel) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
@@ -47,7 +49,6 @@ public class AuthenticationController {
             //UserModel newUser = new UserModel(data.username(),data.email(), data.password()); aqui a senha ta indo crua pro banco de dados
             UserModel newUser = new UserModel(data.username(),data.email(), encryptedPassword); //aqui ela vai encriptografada
             this.userRepository.save(newUser);
-
             return ResponseEntity.ok().build();
         }
     }

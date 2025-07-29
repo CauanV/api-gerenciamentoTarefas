@@ -23,8 +23,7 @@ public class TaskModel {
     private Boolean concluded;
 
     //associar com o usuario
-    @ManyToOne(optional = true)                       // torna o relacionamento opcional
-    @JoinColumn(name = "user_id", nullable = true)    // coluna aceita null
+    @ManyToOne(optional = false)                       // torna o relacionamento opcional mudei agora -> obrigatorio
+    @JoinColumn(name = "user_id", nullable = false)    // coluna nao aceita null
     private UserModel user;
-
 }

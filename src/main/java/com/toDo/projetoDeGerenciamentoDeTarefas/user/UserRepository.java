@@ -7,7 +7,7 @@ import java.util.Optional;
 import com.toDo.projetoDeGerenciamentoDeTarefas.user.UserModel;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserModel, Long> { //primeiuro parametro o tipo da entidade da tabela,ou seja,UserModel e tipo da chave primaria
+public interface UserRepository extends JpaRepository<UserModel, Long> { //primeiro parametro o tipo da entidade da tabela,ou seja,UserModel e tipo da chave primaria
     /*
     * Isso dá a você vários métodos prontos, como:
     save(obj) → salva ou atualiza no banco
@@ -20,5 +20,5 @@ public interface UserRepository extends JpaRepository<UserModel, Long> { //prime
     * JpaRepository e automaticamente gera a implementação em tempo de execução
     * */
 
-    UserDetails findByEmail(String email);
+    UserModel findByEmail(String email);
 }

@@ -1,5 +1,6 @@
 package com.toDo.projetoDeGerenciamentoDeTarefas;
 
+import com.toDo.projetoDeGerenciamentoDeTarefas.user.UserModel;
 import com.toDo.projetoDeGerenciamentoDeTarefas.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +18,10 @@ public class AuthorizationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email);
+        UserDetails user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("Usuário não encontrado");
+        }
+        return user;
     }
 }
