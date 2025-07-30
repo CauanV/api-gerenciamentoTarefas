@@ -8,4 +8,5 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<TaskModel, Long> {
 
     List<TaskModel> findAllByUser(UserModel user);
+
 }

@@ -1,6 +1,7 @@
 package com.toDo.projetoDeGerenciamentoDeTarefas.task;
 
 import com.toDo.projetoDeGerenciamentoDeTarefas.user.UserModel;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,6 +37,11 @@ public class TaskController {
     @GetMapping("/{id}")//entre chaves o parametro vai ser um pathvariable
     public TaskModel productById(@PathVariable Long id){
         return taskService.listById(id);
+    }
+
+    @PutMapping("/update/{id}/{concluded}")
+    public TaskModel updateById(@PathVariable Long id, @PathVariable boolean concluded){
+            return taskService.updateById(id,concluded);
     }
 
     @DeleteMapping("/delete{id}")

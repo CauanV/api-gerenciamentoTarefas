@@ -35,6 +35,12 @@ public class TaskService {
         return task;
     }
 
+    public TaskModel updateById(Long id, boolean concluded){
+        TaskModel task = taskRepository.findById(id) .orElseThrow(() -> new EntityNotFoundException("Task nao encontrada " + id));
+        task.setConcluded(concluded);
+        return taskRepository.save(task);
+    }
+
     public List<TaskModel> taskListByUser(UserModel user){
         return taskRepository.findAllByUser(user);
     }
