@@ -21,7 +21,7 @@ public class SecurityConfigurations {
     SecurityFilter securityFilter;
 
     //tendo em vista que eu nao estou trabalhando com permissoes de usuarios diferentes
-    @Bean
+   /* @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable()) // Desativa CSRF (útil para APIs)
@@ -32,7 +32,20 @@ public class SecurityConfigurations {
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-    }
+    }*/ //isso esta funcionado
+
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**", "/index.html", "/cadastro.html", "/tarefas.html").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    } //esse tambem esta dando certo, mas, pra tela de login ridiculamente simples
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

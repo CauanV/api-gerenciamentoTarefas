@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tarefas</title>
+</head>
+<body>
+<h1>Suas Tarefas</h1>
+<ul id="taskList"></ul>
+
+<script>
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('Você precisa fazer login primeiro!');
+    window.location.href = 'index.html';
+    throw new Error('Usuário não autenticado');
+  }
+
+  fetch('http://localhost:8080/api/tasks/list', {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Falha ao carregar as tarefas');
+      }
+      return response.json();
+    })
+    .then(tasks => {
+      const taskList = document.getElementById('taskList');
+      if (tasks.length === 0) {
+        taskList.innerHTML = '<li>Nenhuma tarefa encontrada.</li>';
+        return;
+      }
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.textContent = task.description + (task.concluded ? ' (Concluída)' : '');
+        taskList.appendChild(li);
+      });
+    })
+    .catch(error => {
+      alert(error.message);
+    });
+</script>
+</body>
+</html>

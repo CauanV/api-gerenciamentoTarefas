@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+
+<form id="loginForm">
+  <label for="email">Email:</label><br />
+  <input type="email" id="email" required /><br /><br />
+
+  <label for="password">Senha:</label><br />
+  <input type="password" id="password" required /><br /><br />
+
+  <button type="submit">Entrar</button>
+  <button type="button" id="btnCadastro">Cadastrar</button>
+</form>
+
+<script>
+  // LOGIN
+  const form = document.getElementById('loginForm');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    fetch('http://localhost:8080/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: password })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Email ou senha inválidos');
+      }
+      return response.json();
+    })
+    .then(data => {
+      localStorage.setItem('token', data.token);
+      window.location.href = 'tarefas.html';
+    })
+    .catch(error => {
+      alert(error.message);
+    });
+  });
+
+  // REDIRECIONAR PARA CADASTRO
+  const btnCadastro = document.getElementById('btnCadastro');
+  btnCadastro.addEventListener('click', () => {
+    window.location.href = 'cadastro.html';
+  });
+</script>
+</body>
+</html>
