@@ -1,6 +1,5 @@
 package com.toDo.projetoDeGerenciamentoDeTarefas;
 
-import com.toDo.projetoDeGerenciamentoDeTarefas.user.UserModel;
 import com.toDo.projetoDeGerenciamentoDeTarefas.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
