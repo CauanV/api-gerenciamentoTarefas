@@ -9,6 +9,10 @@
 <h1>Suas Tarefas</h1>
 <ul id="taskList"></ul>
 
+<h3>Nova Tarefa</h3>
+<input type="text" id="newTask" placeholder="Descrição da tarefa" />
+<button onclick="createTask()">Cadastrar Nova Tarefa</button>
+
 <script>
   const token = localStorage.getItem('token');
   if (!token) {
@@ -17,33 +21,112 @@
     throw new Error('Usuário não autenticado');
   }
 
-  fetch('http://localhost:8080/api/tasks/list', {
-    method: 'GET',
-    headers: {
-      'Authorization': 'Bearer ' + token
-    }
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Falha ao carregar as tarefas');
+  // Carrega as tarefas existentes
+  function loadTasks() {
+    fetch('http://localhost:8080/api/tasks/list', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token
       }
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Falha ao carregar as tarefas');
       return response.json();
     })
     .then(tasks => {
       const taskList = document.getElementById('taskList');
+      taskList.innerHTML = ''; // limpa a lista
+
       if (tasks.length === 0) {
         taskList.innerHTML = '<li>Nenhuma tarefa encontrada.</li>';
         return;
       }
+
       tasks.forEach(task => {
         const li = document.createElement('li');
+
+        // Texto da tarefa com conclusão
         li.textContent = task.description + (task.concluded ? ' (Concluída)' : '');
+
+        // Checkbox para marcar/desmarcar conclusão
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.concluded;
+        checkbox.style.marginLeft = '10px';
+        checkbox.onclick = () => toggleTaskCompletion(task.id, !task.concluded);
+
+        // Botão para deletar tarefa
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Excluir';
+        deleteBtn.style.marginLeft = '10px';
+        deleteBtn.onclick = () => deleteTask(task.id);
+
+        li.prepend(checkbox);
+        li.appendChild(deleteBtn);
         taskList.appendChild(li);
       });
     })
-    .catch(error => {
-      alert(error.message);
-    });
+    .catch(error => alert(error.message));
+  }
+
+  // Cria nova tarefa
+  function createTask() {
+    const description = document.getElementById('newTask').value.trim();
+    if (!description) {
+      alert('Digite a descrição da tarefa.');
+      return;
+    }
+
+    fetch('http://localhost:8080/api/tasks/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ description: description })
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Erro ao criar tarefa');
+      document.getElementById('newTask').value = '';
+      loadTasks();
+    })
+    .catch(error => alert(error.message));
+  }
+
+  // Atualiza a conclusão da tarefa (toggle)
+  function toggleTaskCompletion(id, concluded) {
+    fetch(`http://localhost:8080/api/tasks/update/${id}/${concluded}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Erro ao atualizar tarefa');
+      loadTasks();
+    })
+    .catch(error => alert(error.message));
+  }
+
+  // Deleta tarefa
+  function deleteTask(id) {
+    if (!confirm('Deseja realmente excluir esta tarefa?')) return;
+
+    fetch(`http://localhost:8080/api/tasks/delete/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Erro ao excluir tarefa');
+      loadTasks();
+    })
+    .catch(error => alert(error.message));
+  }
+
+  // Carrega a lista ao abrir a página
+  loadTasks();
 </script>
 </body>
 </html>
